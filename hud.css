@@ -1,0 +1,37 @@
+/* Trilha de leitura no topo. Cada página ajusta as cores pelas variáveis --hud-*. */
+html{scroll-padding-top:64px}
+.skip{position:absolute; left:12px; top:-60px; z-index:60; background:#1D1C1A; color:#F8F7F2; padding:10px 14px; border-radius:8px; font-weight:700; text-decoration:none}
+.skip:focus{top:8px}
+.hud{position:fixed; top:0; left:0; right:0; z-index:40; height:54px;
+  background:var(--hud-bg,#1D1C1A); color:var(--hud-fg,#F8F7F2);
+  border-bottom:1px solid var(--hud-line,rgba(255,255,255,.12)); font-family:var(--hud-font,inherit)}
+.hud-in{max-width:1180px; height:100%; margin:0 auto; padding:0 20px; display:flex; align-items:center; gap:18px}
+.hud-logo{font-weight:700; font-size:20px; white-space:nowrap}
+.hud-track{flex:1; display:flex; gap:4px; align-items:center; min-width:0; max-width:520px}
+.hud-track a{flex:1; min-width:16px; height:24px; display:flex; align-items:center; text-decoration:none}
+.hud-track a i{display:block; width:100%; height:4px; border-radius:2px; background:var(--hud-rest,rgba(255,255,255,.22)); position:relative; overflow:hidden; transition:height .2s}
+.hud-track a i b{position:absolute; inset:0; background:var(--hud-accent,#D97757); transform-origin:left; scale:0 1}
+.hud-track a.now i{height:6px}
+.hud-track a:hover i,.hud-track a:focus-visible i{height:8px}
+.hud-track a:focus-visible{outline:2px solid var(--hud-strong,#A54A28); outline-offset:2px}
+.hud-stage{font-size:14px; white-space:nowrap; min-width:150px}
+.hud-stage b{color:var(--hud-strong,#A54A28); font-weight:700}
+.hud-btn{display:inline-flex; align-items:center; min-height:40px; padding:0 16px; font:inherit; font-weight:700; font-size:15px;
+  color:var(--hud-btn-fg,#1D1C1A); background:var(--hud-accent,#D97757); border-radius:var(--hud-radius,999px); text-decoration:none; white-space:nowrap}
+.hud-btn:focus-visible{outline:2px solid var(--hud-fg,#fff); outline-offset:2px}
+/* celular */
+.hud-menu{display:none}
+.hud-total{display:none}
+.hud-list{position:absolute; top:58px; left:12px; right:12px; margin:0; padding:8px; list-style:none; background:var(--hud-bg,#1D1C1A); border:2px solid var(--hud-fg,#F8F7F2); border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,.25); max-height:70vh; overflow:auto}
+.hud-list a{display:flex; align-items:center; min-height:44px; padding:0 12px; border-radius:8px; color:inherit; text-decoration:none; font-size:16px}
+.hud-list a:hover,.hud-list a:focus-visible{background:var(--hud-rest,rgba(255,255,255,.15))}
+@media (max-width:720px){
+  .hud-track,.hud-stage{display:none}
+  .hud-in{gap:10px; padding:0 12px}
+  .hud-logo{font-size:17px}
+  .hud-menu{display:inline-flex; align-items:center; gap:6px; flex:1; min-width:0; min-height:44px; padding:0 10px; font:inherit; font-size:14px; color:inherit; background:none; border:2px solid var(--hud-rest,rgba(255,255,255,.3)); border-radius:10px; cursor:pointer}
+  .hud-menu span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .hud-total{display:block; position:absolute; left:0; right:0; bottom:-4px; height:4px; background:var(--hud-accent,#D97757); transform-origin:left; scale:0 1}
+  .hud-btn{padding:0 12px; font-size:14px; min-height:44px}
+}
+@media (prefers-reduced-motion: reduce){ .hud-track a i{transition:none} }

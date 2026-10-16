@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spiral · Do cursinho ao ITA e ao IME (23º) mudando o método</title>
+<meta name="description" content="Thalles Moura estudou três anos do jeito comum. No quarto, mudou o método e passou em sete vestibulares, entre eles ITA e IME (23º). A aula 1 é grátis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Pixelify+Sans:wght@500;700&family=Cabin+Sketch:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#F8F7F2; --paper:#FFFFFF; --ink:#1D1C1A; --ink-2:#55524B; --line:#DDD8CB;
+  --clay:#D97757; --clay-d:#A54A28; --clay-l:#F3D9CC;
+  --chalk:#23352C; --plate:#304439; --chalk-ink:#ECEADF; --chalk-dim:#C3C8BB; --desk:#EFEBE0;
+  --hud-bg:#F8F7F2; --hud-fg:#1D1C1A; --hud-accent:#D97757; --hud-strong:#A54A28; --hud-rest:#D9D5C8; --hud-line:#1D1C1A; --hud-font:'Atkinson Hyperlegible',sans-serif; --hud-radius:10px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--ivory); color:var(--ink); font-family:'Atkinson Hyperlegible',system-ui,sans-serif; font-size:19px; line-height:1.6}
+:focus-visible{outline:3px solid var(--clay-d); outline-offset:3px}
+.on-chalk :focus-visible{outline-color:var(--clay)}
+img{max-width:100%; display:block}
+h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif; font-weight:800; letter-spacing:-0.025em; line-height:1.03; margin:0}
+p{margin:0}
+.wrap{max-width:1160px; margin:0 auto; padding:0 22px}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+.chalk-font{font-family:'Cabin Sketch',cursive; font-weight:700}
+.pix{font-family:'Pixelify Sans',monospace; font-weight:700}
+.sec{padding:110px 0}
+.lede{font-size:21px; color:var(--ink-2); max-width:46ch}
+.h2{font-size:clamp(34px,4.4vw,60px)}
+.on-chalk{background:var(--chalk); color:var(--chalk-ink)}
+.on-chalk .lede{color:var(--chalk-dim)}
+
+/* botões e chamadas (formatos variados de propósito) */
+.btn{display:inline-flex; align-items:center; justify-content:center; min-height:52px; padding:0 24px; font:inherit; font-weight:700; color:var(--ink); background:var(--clay); border:3px solid var(--ink); border-radius:10px; box-shadow:4px 4px 0 var(--ink); text-decoration:none; cursor:pointer; transition:translate .12s, box-shadow .12s}
+.btn:hover{translate:-1px -1px; box-shadow:5px 5px 0 var(--ink)}
+.btn:active{translate:3px 3px; box-shadow:1px 1px 0 var(--ink)}
+.on-chalk .btn{border-color:var(--chalk-ink); box-shadow:4px 4px 0 var(--chalk-ink)}
+.textlink{font-weight:700; color:var(--clay-d); text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px}
+.on-chalk .textlink{color:var(--clay)}
+.lead{display:flex; gap:10px; flex-wrap:wrap; max-width:580px}
+.lead input{flex:1 1 230px; min-width:0; min-height:52px; font:inherit; border:3px solid var(--ink); border-radius:10px; padding:0 16px; background:var(--paper); color:var(--ink)}
+.on-chalk .lead input{border-color:var(--chalk-ink)}
+.lead-done p{font-weight:700; font-size:21px; color:var(--clay-d)}
+.on-chalk .lead-done p{color:var(--clay)}
+.lead-done .seg-q{font-size:16px; font-weight:400; margin-top:10px}
+.seg{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px}
+.seg button{min-height:44px; padding:0 14px; font:inherit; font-size:16px; border:2px solid currentColor; border-radius:999px; background:transparent; color:inherit; cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--clay); color:var(--ink); border-color:var(--clay)}
+.fine{font-size:15px; color:var(--ink-2); margin-top:10px}
+.on-chalk .fine{color:var(--chalk-dim)}
+
+/* 1. topo */
+.hero{position:relative; min-height:100vh; display:grid; align-items:end; overflow:hidden}
+.hero-img{position:absolute; top:0; bottom:0; right:0; width:56%; height:100%; object-fit:cover; object-position:62% 50%; -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 22%); mask-image:linear-gradient(90deg, transparent 0, #000 22%)}
+.hero .wrap{position:relative; z-index:2; width:100%; padding-top:96px; padding-bottom:56px}
+.hero h1{font-family:'Cabin Sketch',cursive; font-size:clamp(36px,4vw,60px); line-height:1.04; max-width:min(17ch, 46vw); color:var(--chalk-ink)}
+.hero h1 .w{display:inline-block; clip-path:inset(0 100% 0 0); animation:chalk .22s steps(5,end) forwards}
+.hero h1 .accent{color:var(--clay)}
+@keyframes chalk{to{clip-path:inset(0 0 0 0)}}
+.hero p.sub{max-width:min(44ch, 44vw); color:var(--chalk-dim); font-size:19px; margin:18px 0 8px}
+.hero .offer{max-width:min(44ch, 44vw); font-size:18px; margin:0 0 22px; color:var(--chalk-ink)}
+.hero .offer b{color:var(--clay)}
+
+/* 2. o antes */
+.before{background:var(--plate)}
+.years{display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:center}
+.ylist{list-style:none; padding:0; margin:30px 0 0; border-left:3px dashed var(--chalk-dim)}
+.ylist li{padding:0 0 22px 28px; position:relative}
+.ylist li::before{content:''; position:absolute; left:-10px; top:8px; width:16px; height:16px; border-radius:50%; background:var(--plate); border:3px solid var(--chalk-ink)}
+.ylist li.now::before{background:var(--clay); border-color:var(--clay)}
+.ylist b{font-family:'Cabin Sketch'; font-size:28px; display:block; line-height:1.1}
+.ylist span{color:var(--chalk-dim)}
+
+/* 3. memória (ainda na lousa) */
+.forget{height:240vh}
+.forget .stick{position:sticky; top:54px; min-height:calc(100vh - 54px); display:grid; grid-template-columns:1.4fr .6fr; gap:48px; align-items:center; max-width:1160px; margin:0 auto; padding:0 22px}
+.forget .txt{font-family:'Bricolage Grotesque'; font-weight:700; font-size:clamp(28px,3.4vw,48px); line-height:1.18; letter-spacing:-0.02em}
+.forget .txt + .txt{margin-top:22px; font-size:clamp(22px,2.2vw,30px); color:var(--chalk-dim)}
+.forget .bridge{font-family:'Cabin Sketch',cursive; font-weight:700; font-size:clamp(20px,1.9vw,26px); line-height:1.3; color:var(--chalk-dim); max-width:36ch; margin-bottom:26px; padding-left:16px; border-left:3px solid var(--clay)}
+.forget .keep{transition:color .5s}
+.forget.is-end .keep{color:var(--clay)}
+.meter{border:3px solid var(--chalk-ink); border-radius:12px; padding:22px; background:var(--paper); color:var(--ink); box-shadow:6px 6px 0 var(--chalk-ink)}
+.meter .pix{font-size:16px}
+.meter .big{font-family:'Pixelify Sans'; font-weight:700; font-size:68px; line-height:1}
+.meter .bar{height:16px; border:3px solid var(--ink); border-radius:4px; margin:10px 0; overflow:hidden; background:#EEE}
+.meter .bar i{display:block; height:100%; width:100%; background:#3FA34D}
+.meter img{width:120px; margin:10px auto 0}
+
+/* 4. vazamentos (lousa) */
+.leaks{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 40px; margin-top:44px}
+.leak{border-top:3px solid var(--chalk-dim); padding-top:16px}
+.leak b{font-family:'Bricolage Grotesque'; font-size:23px; display:block; line-height:1.2}
+.leak p{color:var(--chalk-dim); margin-top:6px}
+
+/* 5. mesa de estudo (lousa) */
+.desk{height:250vh}
+.desk .stick{position:sticky; top:54px; height:calc(100vh - 54px); display:grid; grid-template-columns:.9fr 1.1fr; gap:30px; align-items:center; max-width:1200px; margin:0 auto; padding:0 22px}
+.desk .copy p{opacity:.5; transition:opacity .4s; margin-top:16px; font-size:20px}
+.desk .copy p.on{opacity:1}
+.desk .copy p b{color:var(--clay)}
+.table{position:relative; height:min(70vh,560px); border-radius:18px; background:#1C2B24; border:2px solid rgba(236,234,223,.18); overflow:hidden; color:var(--ink)}
+.graph-svg{position:absolute; inset:0; width:100%; height:100%}
+.g-bg line{stroke:var(--chalk-dim); stroke-width:1; opacity:.16; transition:stroke .5s, opacity .5s}
+.g-bg line.lit{stroke:var(--clay); opacity:.5}
+.g-bg circle{fill:var(--chalk-dim); opacity:.32}
+.g-link path{fill:none; stroke:var(--clay); stroke-width:2.5; stroke-linecap:round}
+.g-pulse{fill:#FFE3D6; opacity:0; transition:opacity .3s}
+.tcard{position:absolute; width:190px; translate:-50% -50%; background:var(--paper); border:2px solid var(--chalk-dim); border-radius:10px; padding:10px 13px; box-shadow:0 0 0 0 transparent; font-size:14px; line-height:1.38; transition:border-color .4s, box-shadow .4s}
+.tcard.linked{border-color:var(--clay); box-shadow:0 0 0 4px rgba(217,119,87,.28)}
+.tcard b{display:block; font-family:'Bricolage Grotesque'; font-size:17px}
+.tcard .ok{color:#1E6B3A} .tcard .no{color:#9B2C1C}
+.hub{position:absolute; left:50%; top:50%; width:178px; translate:-50% -50%; background:var(--clay-l); border:3px solid var(--clay); border-radius:14px; box-shadow:0 0 0 6px rgba(217,119,87,.25), 0 0 40px rgba(217,119,87,.35); padding:12px; text-align:center; font-size:14px; line-height:1.35; opacity:0}
+.hub img{width:62px; margin:0 auto 4px}
+.hub b{font-family:'Bricolage Grotesque'; font-size:20px; display:block}
+
+/* 6. virada */
+.wipe{height:260vh; background:var(--chalk)}
+.wipe .stick{position:sticky; top:54px; height:calc(100vh - 54px); overflow:hidden}
+.scene{position:absolute; inset:0}
+.scene img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 50%}
+.scene .layer{position:absolute; inset:0}
+.cap{position:absolute; left:22px; bottom:40px; max-width:560px; z-index:3; display:flex; flex-direction:column; gap:12px}
+.cap h2{font-size:clamp(34px,4.6vw,64px); color:#fff; text-shadow:0 2px 0 rgba(0,0,0,.45)}
+.cap p{background:rgba(29,28,26,.92); color:#fff; padding:14px 18px; border-radius:10px; font-size:20px; opacity:0; translate:0 10px; transition:opacity .4s, translate .4s}
+.cap p.on{opacity:1; translate:0 0}
+.cap p b{color:var(--clay)}
+.newid{position:absolute; inset:0; z-index:4; background:var(--ivory); clip-path:circle(0% at 88% 82%); display:grid; align-items:center}
+.newid.static{position:relative; clip-path:none; padding:80px 0}
+.newid-in{display:grid; grid-template-columns:1fr 1fr; gap:30px; align-items:center}
+.newid-t{font-family:'Bricolage Grotesque'; font-weight:800; font-size:clamp(36px,4.8vw,66px); line-height:1.03; letter-spacing:-0.025em}
+.newid .tool{margin:18px 0 24px; color:var(--ink-2); max-width:42ch}
+.newid img{max-height:64vh; margin:0 auto}
+
+/* 7. aprovações */
+.proof-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:start}
+.feat{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:28px}
+.rank{border:3px solid var(--ink); border-radius:12px; padding:16px 18px; background:var(--paper); filter:grayscale(1); opacity:.5; translate:0 8px; transition:filter .6s, opacity .6s, translate .6s}
+.rank.is-in{filter:none; opacity:1; translate:0 0}
+.rank .num{font-family:'Pixelify Sans'; font-weight:700; font-size:40px; line-height:1; color:var(--clay-d)}
+.rank b{display:block; font-size:18px}
+.rank small{color:var(--ink-2); font-size:15px}
+.feat .rank{background:var(--clay-l); box-shadow:5px 5px 0 var(--ink)}
+.feat .rank .num{font-size:56px}
+.feat .rank:nth-child(2){transition-delay:.12s}
+.ranks{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:12px}
+.ranks .rank .num{font-size:32px}
+.ranks .rank:nth-child(1){transition-delay:.2s} .ranks .rank:nth-child(2){transition-delay:.28s} .ranks .rank:nth-child(3){transition-delay:.36s}
+.ranks .rank:nth-child(4){transition-delay:.44s} .ranks .rank:nth-child(5){transition-delay:.52s} .ranks .rank:nth-child(6){transition-delay:.6s}
+.framed{border:3px solid var(--ink); border-radius:14px; overflow:hidden; box-shadow:8px 8px 0 var(--ink); background:#F8F6F0}
+.proof-cta{margin-top:28px; display:flex; flex-wrap:wrap; gap:18px; align-items:center}
+
+/* 8. como o curso é montado */
+.anatomy{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0; margin-top:40px; border:3px solid var(--ink); border-radius:14px; overflow:hidden; background:var(--paper)}
+.anatomy > div{padding:22px; border-right:2px solid var(--line)}
+.anatomy > div:last-child{border-right:0}
+.anatomy .pix{color:var(--clay-d); font-size:15px}
+.anatomy b{font-family:'Bricolage Grotesque'; font-size:22px; display:block; margin:6px 0}
+.redacted{font-family:'Pixelify Sans',monospace; letter-spacing:-1px; line-height:1.7; color:var(--ink); word-break:break-all; user-select:none}
+.anatomy .tag{display:inline-flex; align-items:center; gap:6px; margin-top:10px; font-size:14px; font-weight:700; background:var(--ink); color:var(--ivory); padding:3px 10px; border-radius:999px}
+.why-name{margin-top:28px; padding:18px 20px; border-left:4px solid var(--clay); background:var(--ivory); max-width:70ch}
+
+/* 9. mapa dos módulos */
+.walk{height:240vh}
+.walk .stick{position:sticky; top:54px; min-height:calc(100vh - 54px); display:grid; grid-template-columns:1.45fr .95fr; gap:34px; align-items:center; max-width:1240px; margin:0 auto; padding:20px 22px}
+.mapbox{position:relative; border:4px solid var(--ink); border-radius:12px; overflow:hidden}
+.walker{position:absolute; width:7%; translate:-50% -88%; filter:drop-shadow(0 3px 0 rgba(0,0,0,.25))}
+.walk-note{position:absolute; left:73%; top:14%; translate:-50% 0; background:var(--ink); color:var(--ivory); font-family:'Pixelify Sans'; font-size:15px; padding:6px 10px; border-radius:8px; white-space:nowrap; opacity:0; transition:opacity .4s}
+.walk-note.on{opacity:1}
+.walk-sub{color:var(--ink-2); margin-bottom:14px; font-size:17px; max-width:44ch; line-height:1.45}
+.phases{list-style:none; padding:0; margin:0; display:grid; gap:6px}
+.phases li{display:grid; grid-template-columns:34px 1fr; gap:10px; padding:9px 12px; border-radius:10px; border:2px solid transparent; opacity:.55; transition:opacity .3s, background .3s}
+.phases li.on{opacity:1; background:var(--paper); border-color:var(--ink)}
+.phases .n{font-family:'Pixelify Sans'; font-weight:700; font-size:21px; color:var(--clay-d)}
+.phases b{display:block; line-height:1.25}
+.phases span{font-size:15px; color:var(--ink-2)}
+@media (min-width:901px) and (max-height:860px){ .phases{gap:4px} .phases li{padding:5px 12px} .phases span{font-size:14px; line-height:1.35} .walk .stick h2{font-size:32px !important} }
+.phases .free{display:inline-block; margin-left:6px; font-size:13px; font-weight:700; color:var(--clay-d)}
+
+/* 10. a IA sai de cena */
+.fade-ai{display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:10px; align-items:end; height:240px; margin-top:40px; border-bottom:3px solid var(--ink)}
+.fade-ai div{display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end}
+.fade-ai i{display:block; width:100%; border-radius:8px 8px 0 0; background:var(--clay); border:3px solid var(--ink); border-bottom:0; transform-origin:bottom; scale:1 0; transition:scale .7s cubic-bezier(.2,.7,.2,1)}
+.fade-ai.is-in i{scale:1 1}
+.fade-ai div:nth-child(2) i{transition-delay:.08s} .fade-ai div:nth-child(3) i{transition-delay:.16s} .fade-ai div:nth-child(4) i{transition-delay:.24s}
+.fade-ai div:nth-child(5) i{transition-delay:.32s} .fade-ai div:nth-child(6) i{transition-delay:.4s} .fade-ai div:nth-child(7) i{transition-delay:.48s}
+.fade-ai span{font-size:14px; text-align:center; line-height:1.2; color:var(--ink-2)}
+.fade-legend{display:flex; justify-content:space-between; gap:20px; margin-top:10px; font-size:15px; color:var(--ink-2)}
+
+/* 11. teste */
+.quiz{border:3px solid var(--ink); border-radius:16px; background:var(--paper); padding:30px; box-shadow:8px 8px 0 var(--ink); max-width:900px}
+.quiz h3{font-size:clamp(23px,2.6vw,32px); margin:0 0 20px}
+.quiz .opts{display:grid; gap:10px}
+.quiz button[data-opt]{text-align:left; min-height:56px; font:inherit; background:var(--ivory); color:var(--ink); border:2px solid var(--ink); border-radius:10px; padding:10px 16px; cursor:pointer}
+.quiz button[data-opt]:hover{background:var(--clay-l)}
+.quiz button.right{background:#D8EFD9; border-color:#1E6B3A}
+.quiz button.wrong{background:#F6D6D0; border-color:#9B2C1C}
+.quiz button[aria-disabled="true"]{cursor:default}
+.quiz .mark{font-weight:700}
+.quiz .out{margin-top:20px; display:grid; grid-template-columns:96px 1fr; gap:16px; align-items:center}
+.quiz .out img{width:96px}
+
+/* 12. para quem + dúvidas */
+.who p.big{font-size:clamp(22px,2.4vw,30px); line-height:1.4; max-width:34ch; font-family:'Bricolage Grotesque'; font-weight:500; letter-spacing:-0.01em}
+.who p.big + p.big{margin-top:18px; color:var(--ink-2)}
+.faq{max-width:860px; margin-top:24px}
+.faq details{border-bottom:2px solid var(--ink); padding:18px 0}
+.faq summary{font-family:'Bricolage Grotesque'; font-weight:700; font-size:22px; cursor:pointer; list-style:none; display:flex; justify-content:space-between; gap:20px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+'; font-family:'Pixelify Sans'; color:var(--clay-d)}
+.faq details[open] summary::after{content:'–'}
+.faq p{margin-top:10px; color:var(--ink-2); max-width:62ch}
+
+/* 13. carta */
+.letter-sec{background:var(--paper); border-top:3px solid var(--ink)}
+.letter{display:grid; grid-template-columns:340px 1fr; gap:56px; align-items:start}
+.photo img.me{border:3px solid var(--ink); border-radius:6px; box-shadow:8px 8px 0 var(--clay); aspect-ratio:4/5; object-fit:cover; width:100%}
+.photo figcaption{font-size:14px; color:var(--ink-2); margin-top:12px}
+.letter-body{max-width:58ch; font-size:20px; line-height:1.7}
+.letter-body p + p{margin-top:16px}
+.letter-body .sign{font-family:'Bricolage Grotesque'; font-weight:800; font-size:30px; color:var(--clay-d); margin-top:24px; letter-spacing:-0.02em}
+.creds{list-style:none; padding:0; margin:28px 0 0; display:flex; flex-wrap:wrap; gap:8px}
+.creds li{font-size:15px; border:2px solid var(--ink); border-radius:999px; padding:4px 12px}
+.creds li.top{background:var(--ink); color:var(--ivory)}
+
+/* 14. passos */
+.how{list-style:none; padding:0; margin:36px 0 0; display:grid; max-width:760px; border-left:3px solid var(--clay)}
+.how li{padding:0 0 26px 26px}
+.how b{font-size:21px; display:block}
+.how span{color:var(--ink-2)}
+
+/* 15. final */
+.final{text-align:center}
+.final .art img{height:170px; width:auto; margin:0 auto 22px}
+.final h2{font-size:clamp(38px,5.4vw,74px)}
+.final .lede{margin:16px auto 0}
+.final .lead{margin:26px auto 0; justify-content:center}
+.final .lead-done{display:flex; flex-direction:column; align-items:center}
+
+footer{background:var(--ink); color:#CFCBC0; padding:36px 0 40px; font-size:15px}
+footer p + p{margin-top:6px}
+
+@media (max-width:1100px){
+  .hero{display:block; min-height:0; background:var(--chalk); padding-top:54px}
+  .hero-img{position:relative; width:100%; height:50vh; -webkit-mask-image:none; mask-image:none}
+  .hero h1,.hero p.sub,.hero .offer{max-width:none}
+  .hero .wrap{padding-top:26px; padding-bottom:64px}
+}
+@media (max-width:900px){
+  .years,.proof-grid,.forget .stick,.walk .stick,.desk .stick,.newid-in,.letter{grid-template-columns:1fr}
+  .leaks{grid-template-columns:1fr}
+  .anatomy{grid-template-columns:1fr 1fr}
+  .anatomy > div:nth-child(2){border-right:0}
+  .anatomy > div:nth-child(-n+2){border-bottom:2px solid var(--line)}
+  .ranks{grid-template-columns:1fr 1fr}
+  .forget .stick{gap:18px; align-content:center}
+  .forget .bridge{font-size:18px; margin-bottom:14px}
+  .meter{display:grid; grid-template-columns:1fr auto; column-gap:12px; padding:14px}
+  .meter .big{font-size:44px}
+  .meter img{width:64px; grid-row:1 / span 4; grid-column:2; margin:0; align-self:center}
+  .desk .stick{align-content:center; gap:14px}
+  .desk .copy p{font-size:16px; margin-top:8px}
+  .table{height:44vh}
+  .tcard{width:auto; padding:6px 10px}
+  .tcard b{font-size:14px; max-width:92px; text-align:center; line-height:1.15}
+  .tcard .ok,.tcard .no{display:none}
+  .hub{width:118px; padding:8px}
+  .hub img{width:40px}
+  .hub b{font-size:16px}
+  .hub span{display:none}
+  .walk .stick{gap:14px; align-content:center}
+  .phases div > span{display:none}
+  .phases li{padding:6px 10px; grid-template-columns:24px 1fr}
+  .phases .n{font-size:18px}
+  .walk .stick h2{font-size:26px !important}
+  .walk-sub{font-size:15px; margin-bottom:8px}
+  .walker{width:11%}
+  .walk-note{font-size:12px; top:auto; bottom:5%; left:50%}
+  .newid img{max-height:34vh}
+  .photo{max-width:320px}
+  .final .art img{height:120px}
+}
+@media (max-width:560px){ .feat,.anatomy{grid-template-columns:1fr} .anatomy > div{border-right:0; border-bottom:2px solid var(--line)} .fade-ai{gap:4px; height:200px} .fade-ai span{font-size:11px} .cap p{font-size:17px} }
+@media (prefers-reduced-motion: reduce){
+  .hero h1 .w{animation:none; clip-path:none}
+  .btn,.cap p,.phases li,.rank,.fade-ai i,.desk .copy p,.walk-note,.forget .keep{transition:none}
+  .rank{filter:none; opacity:1; translate:0 0}
+  .fade-ai i{scale:1 1}
+  .forget,.wipe,.walk{height:auto}
+  .forget .stick,.walk .stick{position:relative; top:0; min-height:0; padding-top:60px; padding-bottom:60px}
+  .wipe .stick{position:relative; top:0; height:70vh}
+}
+</style>
+<link rel="stylesheet" href="hud.css">
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="hud" data-hud aria-label="Progresso da página"><div class="hud-in">
+  <span class="hud-logo">spiral</span>
+  <nav class="hud-track" data-hud-track aria-label="Partes da página"></nav>
+  <span class="hud-stage" data-hud-stage><b>1</b></span>
+  <button class="hud-menu" type="button" data-hud-menu aria-expanded="false" aria-controls="hudList"><span>1/15</span> ▾</button>
+  <ol class="hud-list" id="hudList" data-hud-list hidden></ol>
+  <a class="hud-btn" href="#lista">Aula 1 grátis</a>
+  <i class="hud-total" data-hud-total aria-hidden="true"></i>
+</div></header>
+
+<main id="conteudo">
+
+<!-- 1. topo -->
+<section class="hero on-chalk" data-hero data-stage-name="a lousa" aria-labelledby="t1">
+  <img class="hero-img" src="img2/cena-lousa.webp" alt="Estudante exausto às duas da manhã, numa escrivaninha cheia de livros, desenhado a giz" fetchpriority="high">
+  <div class="wrap">
+    <h1 id="t1" data-chalk>Três anos estudando do jeito que me ensinaram. <span class="accent">No quarto, mudei o método e passei em sete vestibulares.</span></h1>
+    <p class="sub">ITA, IME em 23º, EFOMM em 23º, AFA, Escola Naval, EAM em 5º e EEAR em 11º. Tudo no mesmo ano.</p>
+    <p class="offer"><b>A aula 1 é grátis:</b> como descobrir o que a sua prova realmente cobra antes de abrir a apostila.</p>
+    <form class="lead" data-lead data-segment>
+      <label class="sr" for="e1">Seu e-mail</label>
+      <input id="e1" type="email" placeholder="seu@email.com" required autocomplete="email">
+      <button class="btn" type="submit">Receber a aula 1</button>
+    </form>
+    <p class="fine">Chega no seu e-mail. Sem grupo de WhatsApp, sem cartão.</p>
+  </div>
+</section>
+
+<!-- 2. o antes -->
+<section class="sec before on-chalk" data-stage data-stage-name="o antes" aria-labelledby="t2">
+  <div class="wrap years">
+    <div>
+      <h2 id="t2" class="chalk-font h2">Três anos de apostila, lista e madrugada.</h2>
+      <p class="lede" style="margin-top:18px">Eu fazia o que bom aluno faz. Lia a teoria, refazia as listas, assistia às aulas de novo. No fim de cada ano a sensação era parecida: eu tinha visto tudo e lembrava de pouco.</p>
+      <ol class="ylist">
+        <li><b>Ano 1</b><span>Muitas horas. Pouca coisa ficou.</span></li>
+        <li><b>Ano 2</b><span>Mais horas. A mesma sensação.</span></li>
+        <li><b>Ano 3</b><span>Quase. De novo.</span></li>
+        <li class="now"><b>Ano 4</b><span>Mudei o método. Sete aprovações.</span></li>
+      </ol>
+    </div>
+    <img src="img2/aluno-lousa.webp" alt="O estudante desenhado a giz, carregando uma pilha de livros, com o mascote desligado ao lado" loading="lazy" style="max-height:540px; margin:0 auto">
+  </div>
+</section>
+
+<!-- 3. memória -->
+<section class="forget on-chalk" data-forget-section data-stage data-stage-name="a memória" aria-labelledby="t3">
+  <div class="stick">
+    <div>
+      <h2 id="t3" class="sr">O que sobra do que você estudou na segunda</h2>
+      <p class="bridge">Só no quarto ano eu entendi para onde iam aquelas horas. Role devagar e veja se a sua semana é parecida.</p>
+      <p class="txt" data-forget>Segunda-feira <span data-keep>você estudou</span> termodinâmica por <span data-keep>três horas.</span> Acompanhou cada dedução e fechou o caderno achando que estava dominado.</p>
+      <p class="txt" data-forget>Entre terça e quinta entraram óptica, polinômios e eletroquímica. Na sexta, sem método, <span data-keep>sobra quase nada.</span></p>
+    </div>
+    <div class="meter" data-forget-days="segunda,terça,quarta,quinta,sexta" aria-live="off">
+      <div class="pix"><span data-forget-day>segunda</span>-feira</div>
+      <div class="big" data-forget-meter>100%</div>
+      <div class="bar"><i id="memBar"></i></div>
+      <div class="pix">da matéria ainda com você</div>
+      <img id="memFace" src="img2/mascote-neutro.webp" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- 4. onde o esforço vaza -->
+<section class="sec on-chalk" data-stage data-stage-name="o problema" aria-labelledby="t4" style="padding-top:60px">
+  <div class="wrap">
+    <h2 id="t4" class="h2" style="max-width:17ch">Esforço você já tem. O difícil é saber onde ele vaza.</h2>
+    <div class="leaks">
+      <div class="leak"><b>Revisar relendo teoria ou resumo</b><p>Reconhecer a página aberta dá sensação de domínio. Na prova, você precisa reconstruir tudo do zero.</p></div>
+      <div class="leak"><b>Olhar a resolução logo depois de travar</b><p>O passo a passo do professor faz sentido na hora e esconde a decisão que você teria de tomar sozinho.</p></div>
+      <div class="leak"><b>Pedir explicação pronta para a IA</b><p>A resposta vem limpa e bem formatada em segundos. O cérebro confunde leitura fluida com aprendizado.</p></div>
+      <div class="leak"><b>Fazer trinta questões seguidas do mesmo capítulo</b><p>Você acerta porque já sabe qual fórmula usar antes de ler o enunciado. Na prova, os assuntos vêm misturados.</p></div>
+    </div>
+    <p style="margin-top:36px; color:var(--chalk-dim)">Mais abaixo tem uma pergunta de 30 segundos sobre isso. Responda antes de ler a explicação.</p>
+  </div>
+</section>
+
+<!-- 5. mesa de estudo -->
+<section class="desk on-chalk" data-graph-section data-stage data-stage-name="a sua mesa" aria-labelledby="t5">
+  <div class="stick">
+    <div class="copy">
+      <h2 id="t5" class="h2">A sua mesa de estudo hoje.</h2>
+      <p data-graph-step="0">Você tem material bom demais. O problema é que cada um puxa para um lado e nenhum conversa com o outro.</p>
+      <p data-graph-step="0.28">O cursinho avança em linha reta. A prova cobra em espiral: mistura capítulos, exige base antiga e pune quem decorou caso particular.</p>
+      <p data-graph-step="0.55">Você mantém seus livros, suas listas e seu Anki. <b>O Spiral liga tudo num ciclo só</b>, guiado pelo que você erra.</p>
+    </div>
+    <div class="table" data-graph>
+      <div class="tcard" data-node="18,16"><b>Anki</b><span class="ok">Ótimo para reter fatos.</span> <span class="no">Corta a matéria em pedaços soltos.</span></div>
+      <div class="tcard" data-node="82,16"><b>Videoaula</b><span class="ok">Boa para o primeiro contato.</span> <span class="no">Ninguém te cobra nada.</span></div>
+      <div class="tcard" data-node="17,50"><b>Livro pesado</b><span class="ok">Base profunda.</span> <span class="no">Quando você trava, o gabarito entrega tudo de uma vez.</span></div>
+      <div class="tcard" data-node="83,50"><b>Cursinho</b><span class="ok">Ritmo e simulados.</span> <span class="no">Segue em frente mesmo quando a sua base ficou para trás.</span></div>
+      <div class="tcard" data-node="18,84"><b>Lista em PDF</b><span class="ok">Volume de treino.</span> <span class="no">Separada por assunto, sem medir a sua dificuldade.</span></div>
+      <div class="tcard" data-node="82,84"><b>IA no automático</b><span class="ok">Rápida e sempre disponível.</span> <span class="no">Erra conta com confiança e resolve no seu lugar.</span></div>
+      <div class="hub" data-graph-hub><img src="img2/mascote-feliz.webp" alt=""><b>Spiral</b><span>Seus materiais ligados por um diagnóstico do que você erra.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. a virada -->
+<section class="wipe" data-wipe-section data-stage data-stage-name="a virada" aria-labelledby="t6">
+  <div class="stick">
+    <div class="scene">
+      <img src="img2/cena-lousa-wipe.webp" alt="" aria-hidden="true">
+      <div class="layer" data-wipe><img src="img2/cena-virada.webp" alt="" aria-hidden="true"></div>
+    </div>
+    <div class="cap">
+      <h2 id="t6">A virada.</h2>
+      <p data-wipe-step="0.06">No ano passado, a IA deixou de ser um chat para tirar dúvida.</p>
+      <p data-wipe-step="0.28">Virou o meu material de estudo inteiro: <b>um professor que acompanhava o meu nível em cada assunto</b>, montado em cima da ciência da aprendizagem e das provas do ITA e do IME.</p>
+    </div>
+    <div class="newid" data-wipe2 aria-hidden="true">
+      <div class="wrap newid-in">
+        <div>
+          <p class="newid-t">A lousa ficou para trás.</p>
+          <p class="tool">Hoje esse professor cabe dentro do seu próprio Claude. O curso inteiro acontece lá, com um agente ajustado ao seu nível e à sua prova.</p>
+          <a class="btn" href="#lista" tabindex="-1">Quero a aula 1</a>
+        </div>
+        <img src="img2/aluno-aprovado.webp" alt="O estudante em cores, sorrindo com a carta de aprovação, e o mascote comemorando ao lado">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. aprovações -->
+<section class="sec" data-stage data-stage-name="as aprovações" aria-labelledby="t7">
+  <div class="wrap proof-grid">
+    <div>
+      <h2 id="t7" class="h2">Sete aprovações em um ano.</h2>
+      <div class="feat">
+        <div class="rank" data-reveal><div class="num">ITA</div><b>Aprovado</b><small>onde estudo hoje</small></div>
+        <div class="rank" data-reveal><div class="num"><span data-count="23">23</span>º</div><b>IME</b><small>Instituto Militar de Engenharia</small></div>
+      </div>
+      <div class="ranks">
+        <div class="rank" data-reveal><div class="num"><span data-count="23">23</span>º</div><b>EFOMM</b></div>
+        <div class="rank" data-reveal><div class="num"><span data-count="5">5</span>º</div><b>EAM</b></div>
+        <div class="rank" data-reveal><div class="num"><span data-count="11">11</span>º</div><b>EEAR</b></div>
+        <div class="rank" data-reveal><div class="num">AFA</div><b>Aprovado</b></div>
+        <div class="rank" data-reveal><div class="num">EN</div><b>Escola Naval</b></div>
+        <div class="rank" data-reveal><div class="num">★</div><b>OBMEP e OBF</b><small>medalhista</small></div>
+      </div>
+      <div class="proof-cta"><a class="btn" href="#lista">Quero o método por trás disso</a><a class="textlink" href="#curso">Ver como o curso é montado</a></div>
+    </div>
+    <div class="framed"><img src="img2/conquista.webp" alt="O estudante pulando com a carta de aprovação ao lado de um troféu, com o mascote comemorando" loading="lazy"></div>
+  </div>
+</section>
+
+<!-- 8. mapa dos módulos -->
+<section class="walk" id="curso" data-walk-section data-stage data-stage-name="os módulos" aria-labelledby="t8">
+  <div class="stick">
+    <div class="mapbox">
+      <img src="img2/mapa.webp" alt="Mapa de jogo com sete paradas ligadas por uma trilha: escola, biblioteca, laboratório, labirinto, montanha, torre do relógio e castelo" loading="lazy">
+      <img class="walker" data-walker data-aspect="1.79" data-path='[[24,86],[38,79],[41,74],[34,40],[33,33],[47,40],[53,75],[63,77],[62,52],[59,32],[67,40],[72,34]]' src="img2/pose-andando.webp" alt="" aria-hidden="true">
+      <span class="walk-note" data-walk-note aria-hidden="true">daqui pra frente é com você</span>
+    </div>
+    <div>
+      <h2 id="t8" style="font-size:clamp(28px,3.4vw,44px); margin-bottom:6px">Sete princípios, sete módulos.</h2>
+      <p class="walk-sub">Para cada princípio de estudo, como a IA multiplica o efeito. Dez horas no total, dentro do seu Claude, do primeiro dia até a semana da prova.</p>
+      <ol class="phases">
+        <li data-stop="0"><span class="n">1</span><div><b>Onde está a nota <a class="free" href="#lista">aula grátis</a></b><span>O que a banca cobra e onde você acha que sabe, mas erra.</span></div></li>
+        <li data-stop="0.12"><span class="n">2</span><div><b>Ligar os pontos</b><span>A estrutura por trás das fórmulas, para não decorar caso por caso.</span></div></li>
+        <li data-stop="0.31"><span class="n">3</span><div><b>Lembrar sem olhar</b><span>Tirar a matéria da cabeça no papel, sem resumo nem gabarito.</span></div></li>
+        <li data-stop="0.66"><span class="n">4</span><div><b>O erro que fica</b><span>Descobrir por que você travou, para não errar igual duas vezes.</span></div></li>
+        <li data-stop="0.86"><span class="n">5</span><div><b>Misturar de propósito</b><span>Saber por onde começar quando a questão junta três capítulos.</span></div></li>
+        <li data-stop="0.97"><span class="n">6</span><div><b>Na hora certa</b><span>Revisar no ponto exato em que a memória ia cair.</span></div></li>
+        <li data-stop="0.99"><span class="n">7</span><div><b>Sem rede</b><span>Você, a folha de rascunho, o relógio e nenhuma IA.</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 9. como cada módulo é montado -->
+<section class="sec" data-stage data-stage-name="cada módulo" aria-labelledby="t9" style="background:var(--paper); border-top:3px solid var(--ink); border-bottom:3px solid var(--ink)">
+  <div class="wrap">
+    <h2 id="t9" class="h2" style="max-width:20ch">Todo módulo segue o mesmo caminho, em quatro partes.</h2>
+    <p class="lede" style="margin-top:18px">Duas ficam abertas aqui. As outras duas, onde está o como, são liberadas só para a turma. Tudo aplicado à matéria que você já está estudando nesta semana.</p>
+    <!-- Boa tentativa. Candidato do ITA e do IME sempre abre o inspetor primeiro.
+         O protocolo não está escondido no CSS. A aula 1 é grátis de verdade: #lista -->
+    <div class="anatomy">
+      <div><span class="pix">parte 1 · aberta</span><b>O princípio</b><p>A ciência por trás daquela etapa e por que o estudo intuitivo falha ali.</p></div>
+      <div><span class="pix">parte 2 · da turma</span><b>O protocolo</b><p class="redacted" aria-hidden="true">████ ██████ ███ ██ ████████ ███ ██████ ████ ████ ███████</p><span class="sr">Conteúdo liberado só para a turma.</span><span class="tag" aria-hidden="true">liberado na turma</span></div>
+      <div><span class="pix">parte 3 · da turma</span><b>A armadilha</b><p class="redacted" aria-hidden="true">██ ████ ████████ ███ ██ ███ ██████ ███████ ████</p><span class="sr">Conteúdo liberado só para a turma.</span><span class="tag" aria-hidden="true">liberado na turma</span></div>
+      <div><span class="pix">parte 4 · aberta</span><b>A prova sem IA</b><p>Um treino curto no papel, cronometrado e sem tela, para medir se o ganho ficou em você.</p></div>
+    </div>
+    <p class="why-name"><b>Por que Spiral:</b> em vez de ver cada assunto uma vez e só reencontrá-lo na revisão final, você volta a ele várias vezes. Cada volta mais funda, mais misturada com o resto e com menos ajuda.</p>
+  </div>
+</section>
+
+<!-- 10. a IA sai de cena -->
+<section class="sec" data-stage data-stage-name="a IA sai de cena" aria-labelledby="t10">
+  <div class="wrap">
+    <h2 id="t10" class="h2" style="max-width:18ch">Em cada assunto, a IA vai saindo de cena.</h2>
+    <p class="lede" style="margin-top:18px">Na prova do ITA e do IME você está sozinho com a caneta. Por isso, quando um assunto é novo, a IA entra forte para estruturar a matéria. Conforme você domina, ela recua, até sumir. No módulo 7, ela já não está mais lá.</p>
+    <div class="fade-ai" data-reveal aria-hidden="true">
+      <div><i style="height:94%"></i><span>primeiro contato</span></div>
+      <div><i style="height:80%"></i><span>estrutura</span></div>
+      <div><i style="height:64%"></i><span>sem olhar</span></div>
+      <div><i style="height:48%"></i><span>erros</span></div>
+      <div><i style="height:32%"></i><span>mistura</span></div>
+      <div><i style="height:16%"></i><span>revisão</span></div>
+      <div><i style="height:3%"></i><span>prova</span></div>
+    </div>
+    <div class="fade-legend" aria-hidden="true"><span>quanto a IA participa em cada etapa de um assunto</span><span>na prova: só você</span></div>
+    <p class="sr">Gráfico: a participação da IA cai etapa por etapa dentro de cada assunto. Começa alta no primeiro contato, diminui na estrutura, na recuperação sem olhar, nos erros, na mistura de assuntos e na revisão, e chega a quase zero na prova.</p>
+    <p style="margin-top:34px"><a class="btn" href="#lista">Começar pelo módulo 1</a></p>
+  </div>
+</section>
+
+<!-- 11. teste -->
+<section class="sec" id="teste" data-stage data-stage-name="o teste" aria-labelledby="t11" style="padding-top:40px">
+  <div class="wrap">
+    <h2 id="t11" style="font-size:clamp(30px,3.8vw,48px); margin-bottom:26px">Responda antes de continuar lendo.</h2>
+    <div class="quiz" data-quiz data-right="c"
+      data-yes="Essa é a mais forte. E repare: você pensou antes de ver a resposta."
+      data-no="A maioria dos bons alunos escolhe a do meio. Vinte questões iguais na mesma tarde dão uma ótima sensação, mas a prova mistura tudo.">
+      <h3>Você tem três horas hoje para estudar um assunto novo de termodinâmica para o IME. O que te faz acertar mais questões desse assunto num simulado daqui a 30 dias?</h3>
+      <div class="opts">
+        <button type="button" data-opt="a">Estudar a teoria com calma, grifar as deduções e montar um bom resumo</button>
+        <button type="button" data-opt="b">Assistir à aula do tópico e resolver vinte questões parecidas do mesmo capítulo em seguida</button>
+        <button type="button" data-opt="c">Tentar um problema antes da teoria para ver onde trava, estudar a estrutura e depois reconstruir de caderno fechado</button>
+      </div>
+      <div class="out" data-quiz-out hidden aria-live="polite">
+        <img src="img2/mascote-duvida.webp" alt="">
+        <div><b data-quiz-verdict></b><p style="margin:8px 0 12px">Como fazer isso com a IA, assunto por assunto, está nos módulos 2 e 3.</p><a class="textlink" href="#lista">Receber a aula 1 grátis</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12. para quem + dúvidas -->
+<section class="sec who" data-stage data-stage-name="para quem" aria-labelledby="t12" style="padding-top:40px">
+  <div class="wrap">
+    <h2 id="t12" class="sr">Para quem é</h2>
+    <p class="big">Escrevi este curso para quem está no segundo, terceiro ou quarto ano tentando ITA, IME, AFA, EFOMM, Escola Naval, EEAR ou EAM, e já estuda mais horas do que consegue aproveitar.</p>
+    <p class="big">Se você quer que a IA estude por você, ele não vai servir.</p>
+    <div class="faq">
+      <details><summary>A IA não erra conta e inventa física em questão de ITA e IME?</summary><p>Erra, e com uma formatação tão bonita que engana. Por isso, no curso, ela não resolve questão por você nem substitui o gabarito ou o livro. Cada módulo mostra exatamente onde ela atrapalha.</p></details>
+      <details><summary>Preciso pagar alguma IA?</summary><p>Sim. O curso acontece dentro do Claude, com um agente personalizado, e isso exige um plano pago. Na versão gratuita ele não funciona como deveria.</p></details>
+      <details><summary>Preciso saber programar?</summary><p>Não. Eu montei tudo no Claude Code, mas você só conversa com o agente, como em qualquer chat.</p></details>
+      <details><summary>Quanto tempo o curso toma?</summary><p>Dez horas no total. E você não para de estudar para fazer o curso: tudo é aplicado na matéria que você já está estudando.</p></details>
+      <details><summary>Já uso Anki e faço muita lista. O que muda?</summary><p>O Anki guarda peças soltas, e lista em bloco treina imitação de um capítulo só. A segunda fase cobra a ligação entre as peças, em questões que você nunca viu. O Spiral entra entre o seu livro, a sua lista e o seu Anki para atacar justamente isso.</p></details>
+      <details><summary>Você passou no quarto ano. Não foi só a bagagem dos três primeiros?</summary><p>Os três primeiros anos me deram base, sem dúvida. Mas muita gente tem a mesma base e continua batendo na trave, porque o que estuda vaza ou trava na hora de juntar matérias. O curso entrega o que mudou no quarto ano, para você aplicar desde já.</p></details>
+      <details><summary>Faço cursinho. Vou ter que mudar a minha rotina?</summary><p>Não. O seu professor continua sendo quem constrói a sua base. O Spiral entra nas horas em que você está sozinho, decidindo o que fazer com as listas e com os erros do último simulado.</p></details>
+      <details><summary>Serve para a segunda fase discursiva?</summary><p>Serve. A segunda fase cobra raciocínio montado do zero, no papel e sem consulta, e é exatamente essa condição que o módulo 7 treina.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- 13. carta -->
+<section class="sec letter-sec" data-stage data-stage-name="quem escreve" aria-labelledby="t13">
+  <div class="wrap letter">
+    <figure class="photo" style="margin:0">
+      <img class="me" src="img2/thalles.webp" alt="Foto de Thalles Moura, de óculos e camiseta preta" loading="lazy">
+      <figcaption>Thalles Moura, hoje aluno do ITA.</figcaption>
+    </figure>
+    <div>
+      <h2 id="t13" class="sr">Uma carta de Thalles Moura</h2>
+      <div class="letter-body">
+        <p>Oi. Eu sou o Thalles.</p>
+        <p>Passei quatro anos estudando para os vestibulares militares e de engenharia. Em três deles o resultado não veio, e não foi por falta de hora sentado na cadeira.</p>
+        <p>No quarto ano, a IA deixou de ser um chat para tirar dúvida e virou o meu material de estudo inteiro: um professor que acompanhava o meu nível em cada assunto. Naquele ano vieram sete aprovações, entre elas o 23º lugar no IME e a vaga no ITA, onde estudo hoje.</p>
+        <p>Este curso coloca esse professor dentro do seu Claude. Sem promessa de atalho: você vai continuar estudando muito. Só que agora o estudo vai ficar.</p>
+        <p class="sign">Thalles</p>
+      </div>
+      <ul class="creds" aria-label="Aprovações e medalhas">
+        <li class="top">ITA</li><li class="top">IME 23º</li><li>EFOMM 23º</li><li>EAM 5º</li><li>EEAR 11º</li><li>AFA</li><li>Escola Naval</li><li>OBMEP</li><li>OBF</li>
+      </ul>
+      <p style="margin-top:26px"><a class="btn" href="#lista">Começar pela aula 1</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- 14. como funciona -->
+<section class="sec" data-stage data-stage-name="como funciona" aria-labelledby="t14">
+  <div class="wrap">
+    <h2 id="t14" class="h2">Depois que você deixa o e-mail</h2>
+    <ol class="how">
+      <li><b>A aula 1 chega no seu e-mail</b><span>“Onde está a nota”: como descobrir o que a sua prova realmente cobra antes de abrir a apostila.</span></li>
+      <li><b>Você aplica no seu Claude, nesta semana</b><span>Em cima da matéria que você já está estudando. Sem compromisso de compra.</span></li>
+      <li><b>Quando a turma abrir, você fica sabendo antes</b><span>Quem está na lista recebe o aviso primeiro.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 15. final -->
+<section class="sec final" id="lista" data-final data-stage data-stage-name="o e-mail" aria-labelledby="t15" style="background:var(--clay-l); border-top:3px solid var(--ink)">
+  <div class="wrap">
+    <div class="art" aria-hidden="true"><img src="img2/mascote-coracao.webp" alt=""></div>
+    <h2 id="t15">Você leu até aqui. Falta um e-mail.</h2>
+    <p class="lede">Na aula 1 você vê por que estudar na ordem do sumário é o caminho mais lento para subir nota nas provas militares.</p>
+    <form class="lead" data-lead data-segment data-done="Pronto. A aula 1 está a caminho do seu e-mail.">
+      <label class="sr" for="e2">Seu e-mail</label>
+      <input id="e2" type="email" placeholder="seu@email.com" required autocomplete="email">
+      <button class="btn" type="submit">Mandar a aula 1</button>
+    </form>
+    <p class="fine">Um e-mail por aula. Sem grupo de WhatsApp, sem spam.</p>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap">
+  <p>Projeto de portfólio. Este curso não está à venda.</p>
+  <p>Claude e Claude Code são marcas da Anthropic. Este curso não é afiliado, patrocinado nem endossado pela Anthropic.</p>
+</div></footer>
+
+<script src="shared.js"></script>
+<script>
+// título escrito a giz, palavra por palavra (rápido; leitor de tela recebe o texto inteiro)
+(() => {
+  const h = document.querySelector('[data-chalk]');
+  if (!h || reduceMotion) return;
+  h.setAttribute('aria-label', h.textContent.replace(/\s+/g, ' ').trim());
+  let i = 0;
+  const wrap = (node) => {
+    [...node.childNodes].forEach((n) => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.append(part); return; }
+          const s = document.createElement('span');
+          s.className = 'w'; s.textContent = part; s.setAttribute('aria-hidden', 'true');
+          s.style.animationDelay = (0.1 + i++ * 0.05).toFixed(2) + 's';
+          frag.append(s);
+        });
+        n.replaceWith(frag);
+      } else wrap(n);
+    });
+  };
+  wrap(h);
+})();
+
+// memória: barra e cara do mascote acompanham o texto que some
+(() => {
+  const sec = document.querySelector('[data-forget-section]');
+  const bar = document.getElementById('memBar'), face = document.getElementById('memFace');
+  let last = '';
+  sec.addEventListener('forget', (e) => {
+    const v = e.detail;
+    bar.style.width = v + '%';
+    bar.style.background = v > 60 ? '#3FA34D' : v > 30 ? '#E9B44C' : '#C9473A';
+    const f = v > 60 ? 'neutro' : v > 30 ? 'surpreso' : 'sono';
+    if (f !== last) { face.src = 'img2/mascote-' + f + '.webp'; last = f; }
+  });
+})();
+</script>
+</body>
+</html>
