@@ -1,4 +1,4 @@
-// Comportamentos comuns (página final espiral.html; os modelos congelados também usam).
+// Comportamentos da página (trilha de leitura, memória, grafo, virada, mapa, teste, formulários).
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Progresso (0..1) de uma seção alta com conteúdo sticky.
